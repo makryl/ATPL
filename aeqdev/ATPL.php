@@ -2,7 +2,7 @@
 
 /**
  * http://aeqdev.com/tools/php/atpl/
- * v 1.0
+ * v 1.1
  *
  * Copyright © 2013 Krylosov Maksim <Aequiternus@gmail.com>
  *
@@ -114,14 +114,6 @@ class ATPL
     }
 
     /**
-     * Renders next step of view stack.
-     */
-    public function contents()
-    {
-        $this->renderStep();
-    }
-
-    /**
      * Renders using wrappers, views and children.
      */
     public function render()
@@ -129,7 +121,7 @@ class ATPL
         $this->view = 0;
         $this->count = count($this->views);
         $this->wrapper = count($this->wrappers);
-        $this->renderStep();
+        $this->contents();
     }
 
     /**
@@ -143,9 +135,9 @@ class ATPL
     }
 
     /**
-     * Renders one step: wrapper, view or children.
+     * Renders next step: wrapper, view or children.
      */
-    private function renderStep()
+    public function contents()
     {
         if ($this->renderWrappers()) {
             if ($this->renderViews()) {
@@ -203,7 +195,7 @@ class ATPL
     private function renderChildren()
     {
         if (isset($this->renderWith)) {
-            $this->renderWith->renderStep();
+            $this->renderWith->contents();
         } else {
             foreach ($this->children as $children) {
                 $children->render();
